@@ -75,7 +75,10 @@ const COLUMNS = [
 
 const FIELD_RULES: Record<
   string,
-   { keywords: string[]; preferred: string[]; out?: string; short?: string }
+  {
+    keywords: string[];
+    preferred: string[];
+  }
 > = {
   Disease: {
     keywords: [
@@ -91,8 +94,6 @@ const FIELD_RULES: Record<
       "inflammaging",
     ],
     preferred: ["Title", "Abstract", "Introduction", "Results"],
-    out: "Disease",
-    short: "Disease",
   },
   Models: {
     keywords: [
@@ -109,14 +110,10 @@ const FIELD_RULES: Record<
       "model",
     ],
     preferred: ["Abstract", "Methods", "Results"],
-    out: "Models (human, animal, in vitro model), if there is more than one model repeat line.",
-    short: "Models - Short Answer",
   },
   "Cohort Size": {
     keywords: ["n =", "n=", "patients", "participants", "samples", "cohort", "replicates", "biological replicates"],
     preferred: ["Abstract", "Methods", "Results"],
-    out: "Size of cohort or number or biological replicates",
-    short: "Cohort Size - Short Answer",
   },
   "Study Design": {
     keywords: [
@@ -131,25 +128,18 @@ const FIELD_RULES: Record<
       "control group",
     ],
     preferred: ["Abstract", "Methods"],
-    out: "Study design (comparisons) (add line if more than one",
-    short: "Study Design - Short Answer",
   },
   "Cohort Age": {
     keywords: ["age", "aged", "years old", "mean age", "median age"],
     preferred: ["Methods", "Results"],
-    short: "Cohort Age - Short Answer",
   },
   "Cohort Sex": {
     keywords: ["sex", "gender", "male", "female", "men", "women"],
     preferred: ["Methods", "Results"],
-    out: "Cohort Sex",
-    short: "Cohort Sex - Short Answer",
   },
   Confounders: {
     keywords: ["confounder", "adjusted for", "covariates", "age", "sex", "bmi", "smoking", "medication"],
     preferred: ["Methods"],
-    out: "Confounders",
-    short: "Confounders - Short Answer",
   },
   "Statistical Analysis": {
     keywords: [
@@ -164,13 +154,10 @@ const FIELD_RULES: Record<
       "multiple testing",
     ],
     preferred: ["Methods"],
-    short: "Statistical Analysis - Short Answer",
   },
   Tissue: {
     keywords: ["feces", "faeces", "blood", "serum", "plasma", "pbmc", "tissue", "biopsy", "colon", "brain", "liver"],
     preferred: ["Methods", "Results"],
-    out: "Tissue used in omics (add line if more than one tissue)",
-    short: "Tissue - Short Answer",
   },
   "Omics Types": {
     keywords: [
@@ -184,8 +171,6 @@ const FIELD_RULES: Record<
       "mass spectrometry",
     ],
     preferred: ["Abstract", "Methods", "Results"],
-    out: "Omics types (list) ... if more than one omics used, them make new line",
-    short: "Omics Types - Short Answer",
   },
   "Sample Preparation": {
     keywords: [
@@ -198,8 +183,6 @@ const FIELD_RULES: Record<
       "extraction",
     ],
     preferred: ["Methods"],
-    out: "Omics Methods protocol - sample preparation keuwords",
-    short: "Sample Preparation - Short Answer",
   },
   Equipment: {
     keywords: [
@@ -214,8 +197,6 @@ const FIELD_RULES: Record<
       "mass spectrometer",
     ],
     preferred: ["Methods"],
-    out: "Omics Methods protocol Equipment used (list)",
-    short: "Equipment - Short Answer",
   },
   "Other Methods": {
     keywords: [
@@ -228,8 +209,6 @@ const FIELD_RULES: Record<
       "software",
     ],
     preferred: ["Methods", "Results"],
-    out: "Omics Methods protocol other keywords (list)",
-    short: "Other Methods - Short Answer",
   },
   Molecules: {
     keywords: [
@@ -245,26 +224,18 @@ const FIELD_RULES: Record<
       "fold change",
     ],
     preferred: ["Results"],
-    out: "Molecules (level, Up/Down) (list, gene, protein, metabolite, etc...)",
-    short: "Molecules - Short Answer",
   },
   "Blood Biomarkers": {
     keywords: ["il-6", "il6", "tnf", "tnf-α", "crp", "c-reactive protein", "il-1β", "interleukin", "cytokine"],
     preferred: ["Abstract", "Results"],
-    out: "Blood Biomarkers of inflammation increased (list: biomarker/level)",
-    short: "Blood Biomarkers - Short Answer",
   },
   Pathways: {
     keywords: ["pathway", "kegg", "reactome", "go enrichment", "nf-kb", "nf-κb", "jak-stat", "signaling"],
     preferred: ["Results", "Discussion"],
-    out: "Pathways",
-    short: "Pathways - Short Answer",
   },
   "Data Accession": {
     keywords: ["geo", "gse", "sra", "prjna", "arrayexpress", "ega", "accession", "deposited", "available"],
     preferred: ["Data Availability", "Methods"],
-    out: "Deposited Data Accession",
-    short: "Data Accession - Short Answer",
   },
 };
 
@@ -586,7 +557,7 @@ function rewriteEvidence(text: string) {
     /participants were included/i.test(t)
   ) {
     const m = t.match(
-      /(\d+)\s+participants.*?\((\d+).*?mixed diet.*?(\d+).*?supplement.*?(\d+).*?high-fibre/si
+      /(\d+)\s+participants.*?\((\d+).*?mixed diet.*?(\d+)[\s\S]*?(\d+)[\s\S]*?supplement[\s\S]*?(\d+)[\s\S]*?high-fibre/i
     );
 
     if (m) {
