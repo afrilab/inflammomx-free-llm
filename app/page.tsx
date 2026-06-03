@@ -1388,7 +1388,7 @@ function formatEvidenceForDisplay(text: string) {
   }
 
   function downloadEvidenceCsv() {
-    const header = "Field,Evidence Sentence (Cleaned),LLM Validation\n";   
+    const header = "Field,LLM Validation\n";   
    
     const body = evidenceMap
       .map((e) =>
@@ -1495,10 +1495,6 @@ function formatEvidenceForDisplay(text: string) {
                 onClick={() => download(csv, `${fileName}.wide-matrix.csv`, "text/csv;charset=utf-8")}
               >
                 Download Wide Matrix CSV
-              </button>
-
-              <button style={secondaryButtonStyle} onClick={downloadEvidenceCsv}>
-                Download Evidence Map CSV
               </button>
 
               <button
@@ -1623,7 +1619,6 @@ function formatEvidenceForDisplay(text: string) {
                   <tr>
                     {[
                       "Field",
-                      "Evidence Sentence (Cleaned)",
                       "LLM Validation | Confidence",
                     ].map((h) => (
                       <th key={h} style={thStyle}>
@@ -1637,7 +1632,6 @@ function formatEvidenceForDisplay(text: string) {
                   {evidenceMap.map((e, i) => (
                     <tr key={i}>
                       <td style={tdStyle}>{e.field}</td>
-                      <td style={tdStyle}>{rewriteEvidence(e.evidence)}</td>
                       <td style={tdStyle}>{e.llmValidation || e.confidence}</td>
                     </tr>
                   ))}
