@@ -73,13 +73,14 @@ const COLUMNS = [
   "Full text status",
 ];
 
-const FIELD_RULES: Record<
-  string,
-  {
-    keywords: string[];
-    preferred: string[];
-  }
-> = {
+type FieldRule = {
+  keywords: string[];
+  preferred: string[];
+  out?: string;
+  short?: string;
+};
+
+const FIELD_RULES: Record<string, FieldRule> = {
   Disease: {
     keywords: [
       "disease",
